@@ -19,7 +19,7 @@ const resolvers = {
     link: async (parent, { id }, { prisma }) =>
       await prisma.link.findFirst({
         where: {
-          id: parseInt(id, 10),
+          id,
         }
       }),
   },

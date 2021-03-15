@@ -11,7 +11,7 @@ generator client {
 }
 
 model Link {
-  id          Int      @id @default(autoincrement())
+  id          String   @id @default(uuid())
   createdAt   DateTime @default(now())
   url         String
   description String
