@@ -16,18 +16,21 @@ const resolvers = {
     feed: async (parent, args, {prisma}) => {
       return await prisma.link.findMany();
     },
-    // link: (parent, { id }) => links.find(link => link.id === id),
+    link: async (parent, { id }, { prisma }) =>
+      await prisma.link.findFirst({
+        where: {
+          id: parseInt(id, 10),
+        }
+      }),
   },
   Mutation: {
-    post: async (parent, { url, description }, {prisma}) => {
-      const newLink = await prisma.link.create({
+    post: async (parent, { url, description }, {prisma}) =>
+      await prisma.link.create({
         data: {
           url,
           description,
         },
-      });
-      return newLink;
-    },
+      }),
     // updateLink: (parent, { id, ...rest }) => {
     //   let _link;
     //   links = links.map(link => {
