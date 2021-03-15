@@ -1,60 +1,55 @@
 const { ApolloServer } = require('apollo-server')
 const { PrismaClient } = require('@prisma/client')
-const prisma = new PrismaClient();
 const fs = require('fs');
 const path = require('path');
+
+const prisma = new PrismaClient();
 
 const typeDefs = fs.readFileSync(
   path.join(__dirname, 'schema.graphql'),
   'utf8'
 )
 
-let links = [{
-  id: 'link-0',
-  url: 'www.howtographql.com',
-  description: 'Fullstack tutorial for GraphQL'
-}]
-
-let idCount = links.length;
-
 const resolvers = {
   Query: {
     info: () => `This is the API of hackernews clone`,
-    feed: () => links,
-    link: (parent, { id }) => links.find(link => link.id === id),
+    feed: async (parent, args, {prisma}) => {
+      return await prisma.link.findMany();
+    },
+    // link: (parent, { id }) => links.find(link => link.id === id),
   },
   Mutation: {
-    post: (parent, { url, description }) => {
-      const link = {
-        id: `link-${idCount++}`,
-        url,
-        description,
-      }
-      links.push(link);
-      return link;
-    },
-    updateLink: (parent, { id, ...rest }) => {
-      let _link;
-      links = links.map(link => {
-        if (id === link.id) {
-          _link = { ...link, ...rest };
-          return _link;
-        }
-        return link;
-      })
-      return _link;
-    },
-    deleteLink: (parent, {id}) => {
-      let deletedLink;
-      links  = links.filter(link => {
-        if(link.id === id) {
-          deletedLink = link;
-          return false;
-        }
-        return true;
+    post: async (parent, { url, description }, {prisma}) => {
+      const newLink = await prisma.link.create({
+        data: {
+          url,
+          description,
+        },
       });
-      return deletedLink;
-    }
+      return newLink;
+    },
+    // updateLink: (parent, { id, ...rest }) => {
+    //   let _link;
+    //   links = links.map(link => {
+    //     if (id === link.id) {
+    //       _link = { ...link, ...rest };
+    //       return _link;
+    //     }
+    //     return link;
+    //   })
+    //   return _link;
+    // },
+    // deleteLink: (parent, {id}) => {
+    //   let deletedLink;
+    //   links  = links.filter(link => {
+    //     if(link.id === id) {
+    //       deletedLink = link;
+    //       return false;
+    //     }
+    //     return true;
+    //   });
+    //   return deletedLink;
+    // }
   },
 };
 
