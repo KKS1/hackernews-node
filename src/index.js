@@ -2,8 +2,9 @@ const { ApolloServer } = require('apollo-server')
 const { PrismaClient } = require('@prisma/client')
 const fs = require('fs');
 const path = require('path');
-
 const prisma = new PrismaClient();
+const {info, feed, link} = require('./resolvers/Query');
+const {post, updateLink, deleteLink} = require('./resolvers/Mutation')
 
 const typeDefs = fs.readFileSync(
   path.join(__dirname, 'schema.graphql'),
@@ -12,40 +13,14 @@ const typeDefs = fs.readFileSync(
 
 const resolvers = {
   Query: {
-    info: () => `This is the API of hackernews clone`,
-    feed: async (parent, args, {prisma}) => {
-      return await prisma.link.findMany();
-    },
-    link: async (parent, { id }, { prisma }) =>
-      await prisma.link.findFirst({
-        where: {
-          id,
-        }
-      }),
+    info,
+    feed,
+    link,
   },
   Mutation: {
-    post: async (parent, { url, description }, {prisma}) =>
-      await prisma.link.create({
-        data: {
-          url,
-          description,
-        },
-      }),
-    updateLink: async (parent, { id, ...rest }, {prisma}) =>
-      await prisma.link.update({
-        where: {
-          id,
-        },
-        data: {
-          ...rest,
-        }
-      }),
-    deleteLink: async (parent, {id}, {prisma}) =>
-      await prisma.link.delete({
-        where: {
-          id
-        }
-      }),
+    post,
+    updateLink,
+    deleteLink,
   },
 };
 
