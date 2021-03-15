@@ -31,28 +31,21 @@ const resolvers = {
           description,
         },
       }),
-    // updateLink: (parent, { id, ...rest }) => {
-    //   let _link;
-    //   links = links.map(link => {
-    //     if (id === link.id) {
-    //       _link = { ...link, ...rest };
-    //       return _link;
-    //     }
-    //     return link;
-    //   })
-    //   return _link;
-    // },
-    // deleteLink: (parent, {id}) => {
-    //   let deletedLink;
-    //   links  = links.filter(link => {
-    //     if(link.id === id) {
-    //       deletedLink = link;
-    //       return false;
-    //     }
-    //     return true;
-    //   });
-    //   return deletedLink;
-    // }
+    updateLink: async (parent, { id, ...rest }, {prisma}) =>
+      await prisma.link.update({
+        where: {
+          id,
+        },
+        data: {
+          ...rest,
+        }
+      }),
+    deleteLink: async (parent, {id}, {prisma}) =>
+      await prisma.link.delete({
+        where: {
+          id
+        }
+      }),
   },
 };
 

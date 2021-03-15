@@ -9,6 +9,9 @@ async function main() {
     },
   });
   const allLinks = await prisma.link.findMany();
+  prisma.link.update({
+    
+  })
   console.log(allLinks);
 }
 
