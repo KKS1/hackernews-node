@@ -41,6 +41,17 @@ const resolvers = {
         return link;
       })
       return _link;
+    },
+    deleteLink: (parent, {id}) => {
+      let deletedLink;
+      links  = links.filter(link => {
+        if(link.id === id) {
+          deletedLink = link;
+          return false;
+        }
+        return true;
+      });
+      return deletedLink;
     }
   },
 };
