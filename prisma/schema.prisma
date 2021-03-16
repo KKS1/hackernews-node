@@ -20,8 +20,9 @@ model Link {
 }
 
 model User {
-  id    String @id @default(uuid())
-  name  String
-  email String @unique
-  links Link[]
+  id       String @id @default(uuid())
+  name     String
+  email    String @unique
+  password String
+  links    Link[]
 }
