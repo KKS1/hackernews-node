@@ -1,7 +1,7 @@
 const { ApolloServer } = require('apollo-server')
-const { PrismaClient } = require('@prisma/client')
 const fs = require('fs');
 const path = require('path');
+const { PrismaClient } = require('@prisma/client')
 const prisma = new PrismaClient();
 const Query = require('./resolvers/Query');
 const Mutation = require('./resolvers/Mutation');
@@ -37,5 +37,5 @@ const server = new ApolloServer({
 server
   .listen()
   .then(({ url }) => {
-    console.log(`Server isd runnin on ${url}`);
+    console.log(`Server is running on ${url}`);
   });

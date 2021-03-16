@@ -11,7 +11,7 @@ const post = async (parent, { url, description }, {prisma, userId}) =>
     },
   });
 
-const updateLink = async (parent, { id, ...rest }, {prisma}) =>
+const updateLink = async (parent, { id, ...rest }, {prisma, userId}) =>
   await prisma.link.update({
     where: {
       id,
