@@ -2,13 +2,14 @@ const bycrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const {APP_SECRET, getUserId} = require('../utils');
 
-const post = async (parent, { url, description }, {prisma}) =>
-      await prisma.link.create({
-        data: {
-          url,
-          description,
-        },
-      });
+const post = async (parent, { url, description }, {prisma, userId}) =>
+  await prisma.link.create({
+    data: {
+      url,
+      description,
+      postedBy: {connect: {id: userId}},
+    },
+  });
 
 const updateLink = async (parent, { id, ...rest }, {prisma}) =>
   await prisma.link.update({
