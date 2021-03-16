@@ -3,8 +3,10 @@ const { PrismaClient } = require('@prisma/client')
 const fs = require('fs');
 const path = require('path');
 const prisma = new PrismaClient();
-const queries = require('./resolvers/Query');
-const mutations = require('./resolvers/Mutation')
+const Query = require('./resolvers/Query');
+const Mutation = require('./resolvers/Mutation');
+const User = require('./resolvers/User');
+const Link = require('./resolvers/Link');
 const {getUserId} = require('./utils');
 
 const typeDefs = fs.readFileSync(
@@ -13,8 +15,10 @@ const typeDefs = fs.readFileSync(
 )
 
 const resolvers = {
-  Query: queries,
-  Mutation: mutations,
+  Query,
+  Mutation,
+  User,
+  Link,
 };
 
 const server = new ApolloServer({
