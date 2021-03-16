@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const APP_SECRET = 'GraphQL-is-aw3some';
-const NEW_LINK_TOPIC = 'NEW_LINK';
+const NEW_LINK = 'NEW_LINK';
+const NEW_VOTE = 'NEW_VOTE';
 
 const getTokenPayload = (token) => jwt.verify(token, APP_SECRET);
 
@@ -24,6 +25,7 @@ const getUserId = (req, authToken) => {
 
 module.exports = {
   APP_SECRET,
-  NEW_LINK_TOPIC,
+  NEW_LINK,
+  NEW_VOTE,
   getUserId,
 }
