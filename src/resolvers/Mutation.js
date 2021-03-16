@@ -28,10 +28,10 @@ const deleteLink = async (parent, {id}, {prisma}) =>
     }
   });
 
-const signup = async (parent, args, {primsa}, info) => {
+const signup = async (parent, args, {prisma}, info) => {
   const password = await bycrypt.hash(args.password, 10);
 
-  const user = primsa.user.create({
+  const user = await prisma.user.create({
     data: {
       ...args,
       password,
