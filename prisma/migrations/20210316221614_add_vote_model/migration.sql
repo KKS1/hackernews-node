@@ -1,0 +1,8 @@
+-- CreateTable
+CREATE TABLE "Vote" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "linkId" TEXT,
+    "userId" TEXT,
+    FOREIGN KEY ("linkId") REFERENCES "Link" ("id") ON DELETE SET NULL ON UPDATE CASCADE,
+    FOREIGN KEY ("userId") REFERENCES "User" ("id") ON DELETE SET NULL ON UPDATE CASCADE
+);
