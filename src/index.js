@@ -1,13 +1,15 @@
-const { ApolloServer } = require('apollo-server')
+const { ApolloServer, PubSub } = require('apollo-server')
 const fs = require('fs');
 const path = require('path');
 const { PrismaClient } = require('@prisma/client')
-const prisma = new PrismaClient();
 const Query = require('./resolvers/Query');
 const Mutation = require('./resolvers/Mutation');
 const User = require('./resolvers/User');
 const Link = require('./resolvers/Link');
 const {getUserId} = require('./utils');
+
+const prisma = new PrismaClient();
+const pubsub = new PubSub();
 
 const typeDefs = fs.readFileSync(
   path.join(__dirname, 'schema.graphql'),
@@ -27,6 +29,7 @@ const server = new ApolloServer({
   context: ({req}) => ({
     ...req,
     prisma,
+    pubsub,
     userId:
       req && req.headers.authorization
         ? getUserId(req)
