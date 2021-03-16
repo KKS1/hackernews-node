@@ -1,5 +1,5 @@
 const links = (parent, args, {prisma}, info) => {
-  return prisma.link.findUnique({
+  return prisma.user.findUnique({
     where: {
       id: parent.id,
     }

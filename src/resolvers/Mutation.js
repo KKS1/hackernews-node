@@ -46,7 +46,7 @@ const signup = async (parent, args, {prisma}, info) => {
   };
 };
 
-const login = async (parent, args, {primsa}, info) => {
+const login = async (parent, args, {prisma}, info) => {
   const user = await prisma.user.findUnique({
     where: {
       email: args.email

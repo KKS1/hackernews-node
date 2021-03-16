@@ -1,4 +1,4 @@
-const postedBy = (parent, args, {userId, prisma}, info) => {
+const postedBy = (parent, args, {prisma}, info) => {
   return prisma.link.findUnique({
     where: {
       id: parent.id,
