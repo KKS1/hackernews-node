@@ -77,8 +77,7 @@ const login = async (parent, args, {prisma}, info) => {
 };
 
 const vote = async (parent, {linkId}, context, info) => {
-  const userId =  getUserId(context);
-  const {prisma, pubsub} = context;
+  const {userId, prisma, pubsub} = context;
 
   const vote = await prisma.vote.findUnique({
     where:{
