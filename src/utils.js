@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const APP_SECRET = 'GraphQL-is-aw3some';
+const APP_SECRET = process.env.APP_SECRET;
 const NEW_LINK = 'NEW_LINK';
 const NEW_VOTE = 'NEW_VOTE';
 
