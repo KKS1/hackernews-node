@@ -1,6 +1,6 @@
 const info = () => `This is the API of hackernews clone`;
 
-const feed = async (parent, {filter, skip, take}, {prisma}) => {
+const feed = async (parent, {filter, skip, take, orderBy}, {prisma}) => {
   let where = {};
 
   if(filter) {
@@ -16,6 +16,7 @@ const feed = async (parent, {filter, skip, take}, {prisma}) => {
     where,
     skip,
     take,
+    orderBy,
   });
 };
 
