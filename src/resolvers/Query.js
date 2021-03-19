@@ -1,6 +1,6 @@
 const info = () => `This is the API of hackernews clone`;
 
-const feed = async (parent, {filter}, {prisma}) => {
+const feed = async (parent, {filter, skip, take}, {prisma}) => {
   let where = {};
 
   if(filter) {
@@ -14,6 +14,8 @@ const feed = async (parent, {filter}, {prisma}) => {
 
   return await prisma.link.findMany({
     where,
+    skip,
+    take,
   });
 };
 
