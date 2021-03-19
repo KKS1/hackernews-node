@@ -12,12 +12,19 @@ const feed = async (parent, {filter, skip, take, orderBy}, {prisma}) => {
     }
   };
 
-  return await prisma.link.findMany({
+  const links = await prisma.link.findMany({
     where,
     skip,
     take,
     orderBy,
   });
+
+  const count = await prisma.link.count({where});
+
+  return {
+    links,
+    count,
+  };
 };
 
 const link = async (parent, { id }, { prisma }) =>
