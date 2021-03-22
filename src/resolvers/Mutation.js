@@ -2,7 +2,13 @@ const bycrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const {APP_SECRET, NEW_LINK, NEW_VOTE, getUserId} = require('../utils');
 
+const checkAuth = (userId) => {
+  if(!userId) throw new Error('Unauthorized');
+};
+
 const post = async (parent, { url, description }, {prisma, userId, pubsub}, info) => {
+  checkAuth(userId);
+
   const newLink = await prisma.link.create({
     data: {
       url,
@@ -16,8 +22,10 @@ const post = async (parent, { url, description }, {prisma, userId, pubsub}, info
   return newLink;
 };
 
-const updateLink = async (parent, { id, ...rest }, {prisma, userId}, info) =>
-  await prisma.link.update({
+const updateLink = async (parent, { id, ...rest }, {prisma, userId}, info) => {
+  checkAuth(userId);
+
+  return await prisma.link.update({
     where: {
       id,
     },
@@ -25,13 +33,17 @@ const updateLink = async (parent, { id, ...rest }, {prisma, userId}, info) =>
       ...rest,
     }
   });
+};
 
-const deleteLink = async (parent, {id}, {prisma}, info) =>
-  await prisma.link.delete({
+const deleteLink = async (parent, {id}, {prisma, userId}, info) => {
+  checkAuth(userId);
+
+  return await prisma.link.delete({
     where: {
       id
     }
   });
+}
 
 const signup = async (parent, args, {prisma}, info) => {
   const password = await bycrypt.hash(args.password, 10);
@@ -78,6 +90,8 @@ const login = async (parent, args, {prisma}, info) => {
 
 const vote = async (parent, {linkId}, context, info) => {
   const {userId, prisma, pubsub} = context;
+
+  checkAuth(userId);
 
   const vote = await prisma.vote.findUnique({
     where:{
